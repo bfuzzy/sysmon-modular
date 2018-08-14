@@ -12,13 +12,9 @@
       <!-- Event ID 5 == Process Terminated. -->
       <ProcessTerminate onmatch="include"/>
       <!-- Event ID 6 == Driver Loaded. -->
-      <DriverLoad onmatch="exclude">
-		<!--COMMENT:	Because drivers with bugs can be used to escalate to kernel permissions, be extremely selective
-				about what you exclude from monitoring. Low event volume, little incentive to exclude.-->
-			<Signature condition="begin with">Intel </Signature> <!--Exclude signed Intel drivers-->
-	  </DriverLoad>		
+      <DriverLoad onmatch="include"/>
       <!-- Event ID 7 == Image Loaded. -->
-      <ImageLoad onmatch="include"/>  
+      <ImageLoad onmatch="include"/>
       <!-- Event ID 8 == CreateRemoteThread. -->
       <CreateRemoteThread onmatch="include"/>
       <!-- Event ID 9 == RawAccessRead. -->
@@ -30,7 +26,9 @@
       <!-- Event ID 12,13,14 == RegObject added/deleted, RegValue Set, RegObject Renamed. -->
       <RegistryEvent onmatch="include"/>
       <!-- Event ID 15 == FileStream Created. -->
-      <FileCreateStreamHash onmatch="include"/>
+      <FileCreateStreamHash onmatch="include">
+			<TargetFilename condition="end with">.exe</TargetFilename>
+		</FileCreateStreamHash>
       <!-- Event ID 17,18 == PipeEvent. Log Named pipe created & Named pipe connected -->
       <PipeEvent onmatch="include"/>
       <!-- Event ID 19,20,21, == WmiEvent. Log all WmiEventFilter, WmiEventConsumer, WmiEventConsumerToFilter activity-->
